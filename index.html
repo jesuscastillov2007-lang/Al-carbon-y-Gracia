@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Carbón & Gracia | Roasted Chicken Premium</title>
+    <!-- Fuentes tipográficas de alta gama -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ARQUITECTURA DE DISEÑO Y VARIABLES --- */
+        :root {
+            --bg-oscuro: #060606;
+            --bg-tarjeta: #121212;
+            --cobre-premium: #ca8a5c; 
+            --cobre-brillante: #e5a97e;
+            --fuego-fuerte: #ff4500;
+            --fuego-vivo: #ff8c00;
+            --texto-blanco: #ffffff;
+            --texto-gris: #a6a6a6;
+            --curva-animacion: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Reset global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-oscuro);
+            color: var(--texto-blanco);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- EFECTOS Y ANIMACIONES DE FUEGO --- */
+        @keyframes revelarSuave {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes brilloDestello {
+            0% { left: -100%; }
+            50%, 100% { left: 120%; }
+        }
+
+        /* Animación del texto de fuego */
+        @keyframes textoFuego {
+            0% { text-shadow: 0 0 4px #fff, 0 -4px 4px var(--fuego-vivo), 0 -8px 10px var(--fuego-fuerte), 0 -12px 20px #ff0000; }
+            50% { text-shadow: 0 0 6px #fff, 0 -6px 8px var(--fuego-vivo), 0 -14px 15px var(--fuego-fuerte), 0 -18px 25px #ff0000; }
+            100% { text-shadow: 0 0 4px #fff, 0 -4px 4px var(--fuego-vivo), 0 -8px 10px var(--fuego-fuerte), 0 -12px 20px #ff0000; }
+        }
+
+        /* Animación para las chispas de carbón */
+        @keyframes chispasFlotantes {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) translateX(20px) scale(0); opacity: 0; }
+        }
+
+        /* Capas de carga */
+        .animar-capa-1 { animation: revelarSuave 1s var(--curva-animacion) forwards; }
+        .animar-capa-2 { animation: revelarSuave 1.2s var(--curva-animacion) backwards; animation-delay: 0.2s; }
+        .animar-capa-3 { animation: revelarSuave 1.4s var(--curva-animacion) backwards; animation-delay: 0.4s; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: rgba(6, 6, 6, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(202, 138, 92, 0.15);
+            padding: 1.2rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-contenedor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-img {
+            height: 75px; 
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 0.4rem;
+            transition: transform 0.5s var(--curva-animacion);
+        }
+
+        header:hover .logo-img {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 8px var(--fuego-vivo));
+        }
+
+        .marca-titulo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--cobre-premium);
+        }
+
+        .marca-subtitulo {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--texto-gris);
+        }
+
+        /* --- PORTADA CON EFECTO BRASA Y CHISPAS (HERO) --- */
+        .hero {
+            text-align: center;
+            padding: 9rem 1.5rem;
+            background: linear-gradient(rgba(6, 6, 6, 0.3), rgba(6, 6, 6, 1)), 
+                        url('img/img1.jpg') no-repeat center/cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Contenedor de partículas de fuego */
+        .contenedor-chispas {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .chispa {
+            position: absolute;
+            bottom: 10%;
+            width: 4px;
+            height: 4px;
+            background-color: var(--fuego-vivo);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--fuego-fuerte);
+            animation: chispasFlotantes 3s infinite linear;
+        }
+
+        /* Posiciones aleatorias simuladas para las chispas */
+        .chispa:nth-child(1) { left: 15%; animation-duration: 2.5s; animation-delay: 0.2s; }
+        .chispa:nth-child(2) { left: 35%; animation-duration: 3.5s; animation-delay: 0.8s; }
+        .chispa:nth-child(3) { left: 55%; animation-duration: 2.2s; animation-delay: 0s; }
+        .chispa:nth-child(4) { left: 75%; animation-duration: 4s; animation-delay: 1.5s; }
+        .chispa:nth-child(5) { left: 85%; animation-duration: 2.8s; animation-delay: 0.5s; }
+
+        .hero h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            animation: textoFuego 2s infinite alternate; /* Aplicación del fuego al texto */
+        }
+
+        .hero p {
+            color: var(--cobre-brillante);
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* --- SECCIÓN MENÚ --- */
+        .menu-seccion {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .titulo-seccion {
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--cobre-premium);
+            margin-bottom: 0.3rem;
+        }
+
+        .decoracion-linea {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cobre-premium), var(--fuego-fuerte));
+            margin: 0 auto 1.5rem;
+            transition: width 0.4s ease;
+        }
+
+        .menu-seccion:hover .decoracion-linea {
+            width: 150px;
+        }
+
+        .nota-ensalada {
+            text-align: center;
+            color: var(--texto-gris);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+        }
+
+        /* GRID DE PRODUCTOS CON CALOR DE BRASA */
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3.5rem;
+        }
+
+        .tarjeta-producto {
+            background-color: var(--bg-tarjeta);
+            border: 1px solid rgba(202, 138, 92, 0.08);
+            border-radius: 20px;
+            padding: 3rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s var(--curva-animacion), 
+                        border-color 0.4s var(--curva-animacion), 
+                        box-shadow 0.4s var(--curva-animacion);
+        }
+
+        /* Al pasar el cursor, la tarjeta simula encenderse en fuego/brasa */
+        .tarjeta-producto:hover {
+            transform: translateY(-10px);
+            border-color: var(--fuego-vivo);
+            box-shadow: 0 15px 30px rgba(255, 69, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .producto-info h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .badge-incluye {
+            display: inline-block;
+            background-color: rgba(255, 69, 0, 0.08);
+            color: var(--cobre-brillante);
+            padding: 0.3rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 69, 0, 0.2);
+        }
+
+        .descripcion-detalles {
+            color: var(--texto-gris);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .descripcion-detalles span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* PRECIOS */
+        .caja-precios {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.01);
+        }
+
+        .fila-precio {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .fila-precio:last-child {
+            margin-bottom: 0;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detalle-pago {
+            font-size: 0.85rem;
+            color: var(--texto-gris);
+        }
+
+        .detalle-pago strong {
+            color: var(--texto-blanco);
+            display: block;
+            font-size: 1.05rem;
+            margin-bottom: 2px;
+        }
+
+        .precio-numero {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--cobre-premium);
+            transition: color 0.3s ease;
+        }
+
+        .tarjeta-producto:hover .precio-numero {
+            color: var(--fuego-vivo);
+        }
+
+        /* BOTÓN WHATSAPP REFLECTANTE */
+        .btn-pedido {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25d366;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 1.1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s, transform 0.3s var(--curva-animacion);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-pedido::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+        }
+
+        .btn-pedido:hover {
+            background-color: #1ebe57;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-pedido:hover::after {
+            animation: brilloDestello 1.5s infinite ease-in-out;
+        }
+
+        /* PAGO MÓVIL */
+        .seccion-pagomovil {
+            background-color: var(--bg-tarjeta);
+            max-width: 550px;
+            margin: 0 auto 6rem;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(202, 138, 92, 0.08);
+            text-align: center;
+        }
+
+        .seccion-pagomovil h4 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--cobre-premium);
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .lista-datos {
+            text-align: left;
+            display: inline-block;
+            font-size: 0.95rem;
+            color: var(--texto-gris);
+        }
+
+        .lista-datos p {
+            margin-bottom: 0.6rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+            padding-bottom: 0.4rem;
+        }
+
+        .lista-datos span {
+            color: var(--texto-blanco);
+            font-weight: 600;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            font-size: 0.8rem;
+            color: var(--texto-gris);
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            letter-spacing: 1px;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .grid-productos { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header class="animar-capa-1">
+        <div class="logo-contenedor">
+            <img src="logo.png" alt="Logo Al Carbón & Gracia" class="logo-img" onerror="this.style.display='none'">
+            <h2 class="marca-titulo">Al Carbón & Gracia</h2>
+            <span class="marca-subtitulo">Roasted Chicken</span>
+        </div>
+    </header>
+
+    <!-- PORTADA CON ANIMAClÓN DE FUEGO Y SPARKS -->
+    <section class="hero var-fuego-hero animar-capa-2">
+        <!-- Efecto de chispas flotantes simulando el carbón caliente -->
+        <div class="contenedor-chispas">
+            <div class="chispa"></div>
+            <div class="chispa"></div>
+            <div class="chispa"></div>
+            <div class="chispa"></div>
+            <div class="chispa"></div>
+        </div>
+        <h1>Sabor Impecable</h1>
+        <p>Experiencia Gourmet al Carbón</p>
+    </section>
+
+    <!-- MENÚ PRINCIPAL INTERACTIVO -->
+    <main class="menu-seccion animar-capa-3">
+        <h2 class="titulo-seccion">Nuestro Menú</h2>
+        <div class="decoracion-linea"></div>
+        <p class="nota-ensalada">Combos Premium diseñados para deleitar tu paladar</p>
+
+        <div class="grid-productos">
+            
+            <!-- PRODUCTO 1: COMPLETO -->
+            <div class="tarjeta-producto">
+                <div class="producto-info">
+                    <h3>Pollo Completo</h3>
+                    <span class="badge-incluye">Combo Completo</span>
+                    <div class="descripcion-detalles">
+                        <span>🥗 Ensalada Fresh de la Casa</span>
+                        <span>🥤 Refresco Familiar de 1 Litro</span>
+                    </div>
+                </div>
+                
+                <div class="caja-precios">
+                    <div class="fila-precio">
+                        <div class="detalle-pago">
+                            <strong>Pago Inmediato</strong>
+                            Vía Pago Móvil
+                        </div>
+                        <div class="precio-numero">$14</div>
+                    </div>
+                    <div class="fila-precio">
+                        <div class="detalle-pago">
+                            <strong>Pago Financiado</strong>
+                            Hasta 1 semana de plazo
+                        </div>
+                        <div class="precio-numero">$16</div>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/573219806484?text=Hola%20Jes%C3%BAs%21%20Quiero%20ordenar%20un%20Pollo%20Completo%20%28con%20ensalada%20y%20refresco%20de%201L%29%20%F0%9F%8DA7" class="btn-pedido" target="_blank">
+                    Ordenar por WhatsApp
+                </a>
+            </div>
+
+            <!-- PRODUCTO 2: MEDIO -->
+            <div class="tarjeta-producto">
+                <div class="producto-info">
+                    <h3>Medio Pollo</h3>
+                    <span class="badge-incluye">Combo Personal</span>
+                    <div class="descripcion-detalles">
+                        <span>🥗 Ensalada Fresh de la Casa</span>
+                        <span>🥤 Refresco Individual de 400ml</span>
+                    </div>
+                </div>
+                
+                <div class="caja-precios">
+                    <div class="fila-precio">
+                        <div class="detalle-pago">
+                            <strong>Pago Inmediato</strong>
+                            Vía Pago Móvil
+                        </div>
+                        <div class="precio-numero">$7</div>
+                    </div>
+                    <div class="fila-precio">
+                        <div class="detalle-pago">
+                            <strong>Pago Financiado</strong>
+                            Hasta 1 semana de plazo
+                        </div>
+                        <div class="precio-numero">$8</div>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/573219806484?text=Hola%20Jes%C3%BAs%21%20Quiero%20ordenar%20Medio%20Pollo%20%28con%20ensalada%20y%20refresco%20de%20400ml%29%20%F0%9F%8DA7" class="btn-pedido" target="_blank">
+                    Ordenar por WhatsApp
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- DATOS DE TRANSFERENCIA -->
+    <section class="seccion-pagomovil animar-capa-3">
+        <h4>Datos de Pago Móvil</h4>
+        <div class="lista-datos">
+            <p><strong>Banco:</strong> <span>Banco Destino (01XX)</span></p>
+            <p><strong>Cédula:</strong> <span>V-XX.XXX.XXX</span></p>
+            <p><strong>Teléfono:</strong> <span>04XX-XXXXXXX</span></p>
+        </div>
+    </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <p>&copy; 2026 AL CARBÓN & GRACIA. Todos los derechos reservados.</p>
+        <p style="color: var(--cobre-premium); margin-top: 6px; letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">Calidad & Tradición Premium</p>
+    </footer>
+
+</body>
+</html>
