@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al carbón y gracia | Roasted Chicken</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES DE COLOR PREMIUM --- */
+        :root {
+            --bg-principal: #121212;
+            --bg-tarjetas: #1a1a1a;
+            --dorado: #d4af37;
+            --dorado-brillante: #f3e5ab;
+            --naranja-brasa: #e65c00;
+            --texto-blanco: #ffffff;
+            --texto-gris: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-blanco);
+            line-height: 1.6;
+        }
+
+        /* --- HEADER Y LOGO --- */
+        header {
+            background-color: rgba(18, 18, 18, 0.95);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Espacio para tu Isotipo/Logo */
+        .logo-img {
+            height: 60px; 
+            width: auto;
+            object-fit: contain;
+        }
+
+        .marca-texto {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dorado);
+            letter-spacing: 1px;
+        }
+
+        .marca-texto span {
+            color: var(--texto-blanco);
+            font-style: italic;
+            font-size: 1.4rem;
+        }
+
+        /* --- PORTADA / HERO --- */
+        .hero {
+            text-align: center;
+            padding: 6rem 1.5rem;
+            /* Aquí hacemos el cambio para buscar en tu carpeta img */
+            background: linear-gradient(rgba(13, 13, 13, 0.5), rgba(13, 13, 13, 1)), 
+                        url('img/img1.jpg') no-repeat center/cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--texto-blanco);
+        }
+
+        .hero p {
+            color: var(--dorado);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* --- SECCIÓN MENÚ --- */
+        .menu-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .titulo-seccion {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dorado);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .titulo-seccion::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background-color: var(--naranja-brasa);
+            margin: 10px auto 0;
+        }
+
+        .aclaratoria-ensalada {
+            text-align: center;
+            color: var(--texto-gris);
+            font-style: italic;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .aclaratoria-ensalada strong {
+            color: var(--dorado-brillante);
+        }
+
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .tarjeta-plato {
+            background-color: var(--bg-tarjetas);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tarjeta-plato:hover {
+            transform: translateY(-5px);
+            border-color: var(--dorado);
+        }
+
+        .plato-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--texto-blanco);
+        }
+
+        .tag-incluye {
+            display: inline-block;
+            background-color: rgba(230, 92, 0, 0.15);
+            color: var(--naranja-brasa);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(230, 92, 0, 0.3);
+        }
+
+        .precios-box {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .opcion-pago {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .opcion-pago:last-child {
+            margin-bottom: 0;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .pago-detalle {
+            font-size: 0.9rem;
+            color: var(--texto-gris);
+        }
+
+        .pago-detalle strong {
+            color: var(--texto-blanco);
+            display: block;
+            font-size: 1rem;
+        }
+
+        .monto {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dorado);
+        }
+
+        /* --- BOTONES --- */
+        .btn-waza {
+            display: flex;
+            align-items: center;
+            justify-center: center;
+            gap: 10px;
+            background-color: #25d366;
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-waza:hover {
+            background-color: #20ba5a;
+        }
+
+        /* --- SECCIÓN PAGO MÓVIL --- */
+        .seccion-pago {
+            background-color: var(--bg-tarjetas);
+            max-width: 600px;
+            margin: 2rem auto 5rem;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .seccion-pago h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dorado);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .datos-pago {
+            font-size: 1rem;
+            color: var(--texto-gris);
+            line-height: 1.8;
+        }
+
+        .datos-pago span {
+            color: var(--texto-blanco);
+            font-weight: 500;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--texto-gris);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Adaptabilidad para Teléfonos */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            .hero h1 { font-size: 2.2rem; }
+            .grid-menu { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo Al carbón y gracia" class="logo-img" onerror="this.style.display='none'">
+            <h2 class="marca-texto">Al carbón y gracia</h2>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Sabor Impecable, Calidad Premium</h1>
+        <p>El verdadero pollo al carbón</p>
+    </section>
+
+    <main class="menu-container">
+        <h2 class="titulo-seccion">Nuestro Menú</h2>
+        <p class="aclaratoria-ensalada">Todos nuestros combos incluyen una exquisita <strong>Ensalada de la Casa</strong></p>
+
+        <div class="grid-menu">
+            
+            <div class="tarjeta-plato">
+                <div class="plato-header">
+                    <h3>Pollo Completo</h3>
+                    <span class="tag-incluye">Incluye Ensalada</span>
+                </div>
+                
+                <div class="precios-box">
+                    <div class="opcion-pago">
+                        <div class="pago-detalle">
+                            <strong>Pago Inmediato</strong>
+                            Vía Pago Móvil
+                        </div>
+                        <div class="monto">$14</div>
+                    </div>
+                    <div class="opcion-pago">
+                        <div class="pago-detalle">
+                            <strong>Pago Financiado</strong>
+                            Hasta 1 semana de plazo
+                        </div>
+                        <div class="monto">$16</div>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/573219806484?text=Hola%20Jes%C3%BAs,%20quiero%20ordenar%20un%20Pollo%20Completo%20%F0%9F%8D\A7" class="btn-waza" target="_blank">
+                    Pedir por WhatsApp
+                </a>
+            </div>
+
+            <div class="tarjeta-plato">
+                <div class="plato-header">
+                    <h3>Medio Pollo</h3>
+                    <span class="tag-incluye">Incluye Ensalada</span>
+                </div>
+                
+                <div class="precios-box">
+                    <div class="opcion-pago">
+                        <div class="pago-detalle">
+                            <strong>Pago Inmediato</strong>
+                            Vía Pago Móvil
+                        </div>
+                        <div class="monto">$7</div>
+                    </div>
+                    <div class="opcion-pago">
+                        <div class="pago-detalle">
+                            <strong>Pago Financiado</strong>
+                            Hasta 1 semana de plazo
+                        </div>
+                        <div class="monto">$8</div>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/573219806484?text=Hola%20Jes%C3%BAs,%20quiero%20ordenar%20Medio%20Pollo%20%F0%9F%8D\A7" class="btn-waza" target="_blank">
+                    Pedir por WhatsApp
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <section class="seccion-pago">
+        <h4>Información de Pago Móvil</h4>
+        <div class="datos-pago">
+            <p><strong>Banco:</strong> <span>Banco Mercantil(0105)</span></p>
+            <p><strong>Cédula:</strong> <span>C.C 14.663.920</span></p>
+            <p><strong>Teléfono:</strong> <span>0426-7736001</span></p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--dorado);">*Recuerda reportar tu captura al hacer el pedido inmediato.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Al carbón y gracia. Todos los derechos reservados.</p>
+        <p>Diseño exclusivo para Jesús Castillo</p>
+    </footer>
+
+</body>
+</html>
