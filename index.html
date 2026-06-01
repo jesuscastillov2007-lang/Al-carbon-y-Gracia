@@ -149,7 +149,7 @@
             animation: chispasFlotantes 3s infinite linear;
         }
 
-        /* Posiciones aleatorias simuladas para las chispas */
+        /* Posiciones aleatorias para las chispas */
         .chispa:nth-child(1) { left: 15%; animation-duration: 2.5s; animation-delay: 0.2s; }
         .chispa:nth-child(2) { left: 35%; animation-duration: 3.5s; animation-delay: 0.8s; }
         .chispa:nth-child(3) { left: 55%; animation-duration: 2.2s; animation-delay: 0s; }
@@ -163,7 +163,7 @@
             letter-spacing: 2px;
             margin-bottom: 0.5rem;
             color: #fff;
-            animation: textoFuego 2s infinite alternate; /* Aplicación del fuego al texto */
+            animation: textoFuego 2s infinite alternate;
         }
 
         .hero p {
@@ -232,7 +232,6 @@
                         box-shadow 0.4s var(--curva-animacion);
         }
 
-        /* Al pasar el cursor, la tarjeta simula encenderse en fuego/brasa */
         .tarjeta-producto:hover {
             transform: translateY(-10px);
             border-color: var(--fuego-vivo);
@@ -301,6 +300,7 @@
         .detalle-pago {
             font-size: 0.85rem;
             color: var(--texto-gris);
+            padding-right: 10px;
         }
 
         .detalle-pago strong {
@@ -310,11 +310,25 @@
             margin-bottom: 2px;
         }
 
+        .precio-bloque {
+            text-align: right;
+        }
+
         .precio-numero {
             font-family: 'Oswald', sans-serif;
             font-size: 2rem;
             color: var(--cobre-premium);
             transition: color 0.3s ease;
+            line-height: 1;
+        }
+
+        .nota-tasa {
+            display: block;
+            font-size: 0.68rem;
+            color: var(--texto-gris);
+            font-style: italic;
+            margin-top: 2px;
+            white-space: nowrap;
         }
 
         .tarjeta-producto:hover .precio-numero {
@@ -362,15 +376,16 @@
             animation: brilloDestello 1.5s infinite ease-in-out;
         }
 
-        /* PAGO MÓVIL */
+        /* PAGO MÓVIL Y ADVERTENCIAS EXCLUSIVAS */
         .seccion-pagomovil {
             background-color: var(--bg-tarjeta);
-            max-width: 550px;
+            max-width: 580px;
             margin: 0 auto 6rem;
             padding: 2.5rem;
             border-radius: 20px;
             border: 1px solid rgba(202, 138, 92, 0.08);
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .seccion-pagomovil h4 {
@@ -387,17 +402,34 @@
             display: inline-block;
             font-size: 0.95rem;
             color: var(--texto-gris);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 1.5rem;
         }
 
         .lista-datos p {
             margin-bottom: 0.6rem;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
             padding-bottom: 0.4rem;
+            display: flex;
+            justify-content: space-between;
         }
 
         .lista-datos span {
             color: var(--texto-blanco);
             font-weight: 600;
+        }
+
+        /* Línea estética y advertencia de políticas de financiamiento */
+        .advertencia-comercial {
+            border-top: 1px solid rgba(202, 138, 92, 0.2);
+            padding-top: 1.2rem;
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--cobre-brillante);
+            font-style: italic;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         /* --- FOOTER --- */
@@ -414,6 +446,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .grid-productos { grid-template-columns: 1fr; gap: 2.5rem; }
+            .nota-tasa { white-space: normal; }
         }
     </style>
 </head>
@@ -429,8 +462,7 @@
     </header>
 
     <!-- PORTADA CON ANIMAClÓN DE FUEGO Y SPARKS -->
-    <section class="hero var-fuego-hero animar-capa-2">
-        <!-- Efecto de chispas flotantes simulando el carbón caliente -->
+    <section class="hero animar-capa-2">
         <div class="contenedor-chispas">
             <div class="chispa"></div>
             <div class="chispa"></div>
@@ -467,14 +499,19 @@
                             <strong>Pago Inmediato</strong>
                             Vía Pago Móvil
                         </div>
-                        <div class="precio-numero">$14</div>
+                        <div class="precio-bloque">
+                            <div class="precio-numero">$14</div>
+                        </div>
                     </div>
                     <div class="fila-precio">
                         <div class="detalle-pago">
                             <strong>Pago Financiado</strong>
                             Hasta 1 semana de plazo
                         </div>
-                        <div class="precio-numero">$16</div>
+                        <div class="precio-bloque">
+                            <div class="precio-numero">$16</div>
+                            <span class="nota-tasa">*(Tasa del día al momento de cancelar)*</span>
+                        </div>
                     </div>
                 </div>
 
@@ -500,14 +537,19 @@
                             <strong>Pago Inmediato</strong>
                             Vía Pago Móvil
                         </div>
-                        <div class="precio-numero">$7</div>
+                        <div class="precio-bloque">
+                            <div class="precio-numero">$7</div>
+                        </div>
                     </div>
                     <div class="fila-precio">
                         <div class="detalle-pago">
                             <strong>Pago Financiado</strong>
                             Hasta 1 semana de plazo
                         </div>
-                        <div class="precio-numero">$8</div>
+                        <div class="precio-bloque">
+                            <div class="precio-numero">$8</div>
+                            <span class="nota-tasa">*(Tasa del día al momento de cancelar)*</span>
+                        </div>
                     </div>
                 </div>
 
@@ -519,13 +561,18 @@
         </div>
     </main>
 
-    <!-- DATOS DE TRANSFERENCIA -->
+    <!-- DATOS DE TRANSFERENCIA Y ADVERTENCIA COMERCIAL -->
     <section class="seccion-pagomovil animar-capa-3">
         <h4>Datos de Pago Móvil</h4>
         <div class="lista-datos">
-            <p><strong>Banco:</strong> <span>Banco Mercantil (0105)</span></p>
-            <p><strong>Cédula:</strong> <span> 14.663.920</span></p>
-            <p><strong>Teléfono:</strong> <span>0426-7736001</span></p>
+            <p><strong>Banco:</strong> <span>Banco Destino (01XX)</span></p>
+            <p><strong>Cédula:</strong> <span>V-XX.XXX.XXX</span></p>
+            <p><strong>Teléfono:</strong> <span>04XX-XXXXXXX</span></p>
+        </div>
+        
+        <!-- Línea estética de advertencia agregada con éxito -->
+        <div class="advertencia-comercial">
+            * El servicio de financiamiento a una semana está sujeto a validación previa del comercio y es exclusivo para clientes frecuentes o verificados.
         </div>
     </section>
 
