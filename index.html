@@ -12,8 +12,8 @@
     <style>
         /* --- ARQUITECTURA DE DISEÑO Y VARIABLES --- */
         :root {
-            --bg-oscuro: #060606;
-            --bg-tarjeta: #121212;
+            --bg-oscuro: #080707;
+            --bg-tarjeta: #121111;
             --cobre-premium: #ca8a5c; 
             --cobre-brillante: #e5a97e;
             --fuego-fuerte: #ff4500;
@@ -33,7 +33,13 @@
         }
 
         body {
+            /* FONDO CON TEXTURA Y DEGRADADOS DE CALOR LATERAL */
             background-color: var(--bg-oscuro);
+            background-image: 
+                radial-gradient(circle at 5% 30%, rgba(255, 69, 0, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 95% 60%, rgba(255, 140, 0, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 90%, rgba(255, 69, 0, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
             color: var(--texto-blanco);
             line-height: 1.6;
             overflow-x: hidden;
@@ -57,10 +63,29 @@
             100% { text-shadow: 0 0 4px #fff, 0 -4px 4px var(--fuego-vivo), 0 -8px 10px var(--fuego-fuerte), 0 -12px 20px #ff0000; }
         }
 
+        /* Resplandor pulsante de fuego para la cabecera */
+        @keyframes resplandorHeader {
+            0% { box-shadow: 0 0 15px rgba(255, 69, 0, 0.2), inset 0 -5px 15px rgba(255, 140, 0, 0.15); }
+            50% { box-shadow: 0 0 35px rgba(255, 69, 0, 0.5), inset 0 -8px 25px rgba(255, 140, 0, 0.35); }
+            100% { box-shadow: 0 0 15px rgba(255, 69, 0, 0.2), inset 0 -5px 15px rgba(255, 140, 0, 0.15); }
+        }
+
+        /* Llama ascendente para el texto del título en el header */
+        @keyframes llamaLogo {
+            0% { text-shadow: 0 0 5px var(--fuego-vivo), 0 -2px 8px var(--fuego-fuerte); }
+            50% { text-shadow: 0 0 12px #fff, 0 -5px 15px var(--fuego-vivo), 0 -8px 20px var(--fuego-fuerte); }
+            100% { text-shadow: 0 0 5px var(--fuego-vivo), 0 -2px 8px var(--fuego-fuerte); }
+        }
+
         /* Animación para las chispas de carbón */
         @keyframes chispasFlotantes {
             0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
             100% { transform: translateY(-200px) translateX(20px) scale(0); opacity: 0; }
+        }
+
+        @keyframes chispasHeader {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-40px) scale(0); opacity: 0; }
         }
 
         /* Capas de carga */
@@ -68,53 +93,85 @@
         .animar-capa-2 { animation: revelarSuave 1.2s var(--curva-animacion) backwards; animation-delay: 0.2s; }
         .animar-capa-3 { animation: revelarSuave 1.4s var(--curva-animacion) backwards; animation-delay: 0.4s; }
 
-        /* --- HEADER --- */
+        /* --- HEADER Y NÚCLEO DE FUEGO --- */
         header {
             background-color: rgba(6, 6, 6, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(202, 138, 92, 0.15);
-            padding: 1.2rem 2rem;
+            border-bottom: 2px solid var(--fuego-fuerte);
+            padding: 1.5rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
+            animation: resplandorHeader 3s infinite alternate ease-in-out;
+            overflow: hidden;
         }
+
+        .fuego-header-particulas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        .chispa-h {
+            position: absolute;
+            bottom: 0;
+            width: 3px;
+            height: 3px;
+            background-color: var(--fuego-vivo);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--fuego-fuerte);
+            animation: chispasHeader 2s infinite linear;
+        }
+
+        .chispa-h:nth-child(1) { left: 20%; animation-delay: 0.1s; }
+        .chispa-h:nth-child(2) { left: 40%; animation-delay: 0.5s; }
+        .chispa-h:nth-child(3) { left: 60%; animation-delay: 0.2s; }
+        .chispa-h:nth-child(4) { left: 80%; animation-delay: 0.7s; }
 
         .logo-contenedor {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .logo-img {
-            height: 75px; 
+            height: 80px; 
             width: auto;
             object-fit: contain;
             margin-bottom: 0.4rem;
             transition: transform 0.5s var(--curva-animacion);
+            filter: drop-shadow(0 0 12px var(--fuego-fuerte));
         }
 
         header:hover .logo-img {
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 8px var(--fuego-vivo));
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 18px var(--fuego-vivo));
         }
 
         .marca-titulo {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.9rem;
+            font-size: 2.1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--cobre-premium);
+            color: var(--texto-blanco);
+            animation: llamaLogo 2s infinite alternate;
         }
 
         .marca-subtitulo {
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            color: var(--texto-gris);
+            letter-spacing: 6px;
+            color: var(--fuego-vivo);
+            font-weight: 600;
         }
 
         /* --- PORTADA CON EFECTO BRASA Y CHISPAS (HERO) --- */
@@ -128,7 +185,6 @@
             overflow: hidden;
         }
 
-        /* Contenedor de partículas de fuego */
         .contenedor-chispas {
             position: absolute;
             bottom: 0;
@@ -149,7 +205,6 @@
             animation: chispasFlotantes 3s infinite linear;
         }
 
-        /* Posiciones aleatorias para las chispas */
         .chispa:nth-child(1) { left: 15%; animation-duration: 2.5s; animation-delay: 0.2s; }
         .chispa:nth-child(2) { left: 35%; animation-duration: 3.5s; animation-delay: 0.8s; }
         .chispa:nth-child(3) { left: 55%; animation-duration: 2.2s; animation-delay: 0s; }
@@ -174,11 +229,11 @@
             font-weight: 600;
         }
 
-        /* --- SECCIÓN MENÚ --- */
+        /* --- ESTRUCTURA GENERAL GENERAL --- */
         .menu-seccion {
-            max-width: 1050px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 5rem 1.5rem;
+            padding: 4rem 1.5rem;
         }
 
         .titulo-seccion {
@@ -207,21 +262,89 @@
             text-align: center;
             color: var(--texto-gris);
             font-size: 1.1rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3.5rem;
         }
 
-        /* GRID DE PRODUCTOS CON CALOR DE BRASA */
+        /* LAYOUT DE 2 COLUMNAS (IZQ - MENÚ CENTRO) */
+        .contenedor-principal-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* TARJETAS LATERALES */
+        .tarjeta-lateral {
+            background-color: var(--bg-tarjeta);
+            border: 1px solid rgba(202, 138, 92, 0.12);
+            border-radius: 18px;
+            padding: 1.8rem 1.5rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 130px;
+        }
+
+        .tarjeta-lateral h4 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            color: var(--cobre-premium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(202, 138, 92, 0.2);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tarjeta-lateral p, .tarjeta-lateral li {
+            color: var(--texto-gris);
+            font-size: 0.88rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .tarjeta-lateral ul {
+            list-style: none;
+        }
+
+        .tarjeta-lateral ul li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.4rem;
+        }
+
+        .tarjeta-lateral ul li span {
+            color: var(--texto-blanco);
+            font-weight: 600;
+        }
+
+        .badge-status {
+            display: inline-block;
+            background-color: rgba(37, 211, 102, 0.15);
+            color: #25d366;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* GRID PRODUCTOS */
         .grid-productos {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .tarjeta-producto {
             background-color: var(--bg-tarjeta);
             border: 1px solid rgba(202, 138, 92, 0.08);
             border-radius: 20px;
-            padding: 3rem 2.2rem;
+            padding: 2.2rem 1.8rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -233,14 +356,14 @@
         }
 
         .tarjeta-producto:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             border-color: var(--fuego-vivo);
             box-shadow: 0 15px 30px rgba(255, 69, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.8);
         }
 
         .producto-info h3 {
             font-family: 'Oswald', sans-serif;
-            font-size: 2.2rem;
+            font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 0.3rem;
@@ -262,8 +385,8 @@
 
         .descripcion-detalles {
             color: var(--texto-gris);
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -279,8 +402,8 @@
         .caja-precios {
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1.8rem;
             border: 1px solid rgba(255, 255, 255, 0.01);
         }
 
@@ -288,17 +411,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .fila-precio:last-child {
             margin-bottom: 0;
-            padding-top: 1.2rem;
+            padding-top: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .detalle-pago {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--texto-gris);
             padding-right: 10px;
         }
@@ -306,7 +429,7 @@
         .detalle-pago strong {
             color: var(--texto-blanco);
             display: block;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             margin-bottom: 2px;
         }
 
@@ -316,7 +439,7 @@
 
         .precio-numero {
             font-family: 'Oswald', sans-serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--cobre-premium);
             transition: color 0.3s ease;
             line-height: 1;
@@ -324,7 +447,7 @@
 
         .nota-tasa {
             display: block;
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             color: var(--texto-gris);
             font-style: italic;
             margin-top: 2px;
@@ -343,11 +466,11 @@
             background-color: #25d366;
             color: #ffffff;
             text-decoration: none;
-            padding: 1.1rem;
+            padding: 1rem;
             border-radius: 12px;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
@@ -376,14 +499,20 @@
             animation: brilloDestello 1.5s infinite ease-in-out;
         }
 
-        /* PAGO MÓVIL Y ADVERTENCIAS EXCLUSIVAS */
-        .seccion-pagomovil {
+        /* SECCIONES INFERIORES EN CUADRÍCULA */
+        .contenedor-inferior {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1050px;
+            margin: 3rem auto 4rem;
+        }
+
+        .seccion-pagomovil, .seccion-atencion {
             background-color: var(--bg-tarjeta);
-            max-width: 580px;
-            margin: 0 auto 6rem;
-            padding: 2.5rem;
+            padding: 2.2rem;
             border-radius: 20px;
-            border: 1px solid rgba(202, 138, 92, 0.08);
+            border: 1px solid rgba(202, 138, 92, 0.1);
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
@@ -391,24 +520,23 @@
         .seccion-pagomovil h4 {
             font-family: 'Oswald', sans-serif;
             color: var(--cobre-premium);
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .lista-datos {
             text-align: left;
             display: inline-block;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--texto-gris);
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .lista-datos p {
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
             padding-bottom: 0.4rem;
             display: flex;
@@ -420,22 +548,54 @@
             font-weight: 600;
         }
 
-        /* Línea estética de advertencia */
         .advertencia-comercial {
             border-top: 1px solid rgba(202, 138, 92, 0.2);
-            padding-top: 1.2rem;
-            margin-top: 0.5rem;
-            font-size: 0.82rem;
+            padding-top: 1rem;
+            font-size: 0.78rem;
             color: var(--cobre-brillante);
             font-style: italic;
-            letter-spacing: 0.5px;
-            line-height: 1.4;
+        }
+
+        .seccion-atencion h4 {
+            font-family: 'Oswald', sans-serif;
+            color: #25d366;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .seccion-atencion p {
+            color: var(--texto-gris);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-atencion-ws {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #25d366;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-atencion-ws:hover {
+            background-color: #1ebe57;
+            transform: translateY(-3px);
         }
 
         /* --- FOOTER --- */
         footer {
             text-align: center;
-            padding: 4rem 1.5rem;
+            padding: 3rem 1.5rem;
             font-size: 0.8rem;
             color: var(--texto-gris);
             border-top: 1px solid rgba(255, 255, 255, 0.02);
@@ -443,17 +603,35 @@
         }
 
         /* RESPONSIVE DESIGN */
+        @media (max-width: 992px) {
+            .contenedor-principal-grid {
+                grid-template-columns: 1fr;
+            }
+            .tarjeta-lateral {
+                position: static;
+            }
+            .contenedor-inferior {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
-            .grid-productos { grid-template-columns: 1fr; gap: 2.5rem; }
+            .grid-productos { grid-template-columns: 1fr; }
             .nota-tasa { white-space: normal; }
         }
     </style>
 </head>
 <body>
 
-    <!-- CABECERA -->
+    <!-- CABECERA CON EFECTO DE FUEGO Y PARTÍCULAS -->
     <header class="animar-capa-1">
+        <div class="fuego-header-particulas">
+            <div class="chispa-h"></div>
+            <div class="chispa-h"></div>
+            <div class="chispa-h"></div>
+            <div class="chispa-h"></div>
+        </div>
         <div class="logo-contenedor">
             <img src="logo.png" alt="Logo Al Carbón & Gracia" class="logo-img" onerror="this.style.display='none'">
             <h2 class="marca-titulo">Al Carbón & Gracia</h2>
@@ -461,7 +639,7 @@
         </div>
     </header>
 
-    <!-- PORTADA CON ANIMAClÓN DE FUEGO Y SPARKS -->
+    <!-- PORTADA CON ANIMACIÓN DE FUEGO Y SPARKS -->
     <section class="hero animar-capa-2">
         <div class="contenedor-chispas">
             <div class="chispa"></div>
@@ -474,111 +652,151 @@
         <p>Experiencia Gourmet al Carbón</p>
     </section>
 
-    <!-- MENÚ PRINCIPAL INTERACTIVO -->
+    <!-- ESTRUCTURA PRINCIPAL -->
     <main class="menu-seccion animar-capa-3">
         <h2 class="titulo-seccion">Nuestro Menú</h2>
         <div class="decoracion-linea"></div>
         <p class="nota-ensalada">Combos Premium diseñados para deleitar tu paladar</p>
 
-        <div class="grid-productos">
+        <div class="contenedor-principal-grid">
             
-            <!-- PRODUCTO 1: COMPLETO -->
-            <div class="tarjeta-producto">
-                <div class="producto-info">
-                    <h3>Pollo Completo</h3>
-                    <span class="badge-incluye">Combo Completo</span>
-                    <div class="descripcion-detalles">
-                        <span>🥗 Ensalada Fresh de la Casa</span>
-                        <span>🥤 Refresco Familiar de 1 Litro</span>
-                    </div>
-                </div>
-                
-                <div class="caja-precios">
-                    <div class="fila-precio">
-                        <div class="detalle-pago">
-                            <strong>Pago Inmediato</strong>
-                            Vía Pago Móvil
-                        </div>
-                        <div class="precio-bloque">
-                            <div class="precio-numero">$14</div>
-                        </div>
-                    </div>
-                    <div class="fila-precio">
-                        <div class="detalle-pago">
-                            <strong>Pago Financiado</strong>
-                            Hasta 1 semana de plazo
-                        </div>
-                        <div class="precio-bloque">
-                            <div class="precio-numero">$16</div>
-                            <span class="nota-tasa">*(Tasa del día al momento de cancelar)*</span>
-                        </div>
-                    </div>
+            <!-- LATERAL IZQUIERDO: HORARIOS Y UBICACIÓN FICTICIA -->
+            <aside class="columna-izquierda">
+                <div class="tarjeta-lateral">
+                    <h4>🕒 Horario de Servicio</h4>
+                    <p>Preparamos tu pedido al momento con brasas al carbón.</p>
+                    <ul>
+                        <li>Mar - Jue: <span>11:30 AM - 9:00 PM</span></li>
+                        <li>Vie - Dom: <span>11:00 AM - 10:00 PM</span></li>
+                        <li>Lunes: <span>Cerrado por descanso</span></li>
+                    </ul>
+                    <span class="badge-status">● Horario Activo de Pedidos</span>
                 </div>
 
-                <a href="https://wa.me/573219806484?text=Hola%20Jes%C3%BAs%21%20Quiero%20ordenar%20un%20Pollo%20Completo%20%28con%20ensalada%20y%20refresco%20de%201L%29%20%F0%9F%8DA7" class="btn-pedido" target="_blank">
-                    Ordenar por WhatsApp
+                <div class="tarjeta-lateral">
+                    <h4>🛵 Delivery & Cobertura</h4>
+                    <p>Llegamos calientitos a la puerta de tu casa.</p>
+                    <p style="color: var(--cobre-brillante); font-size: 0.82rem; margin-top: 8px;">
+                        📍 <strong>Despachos desde:</strong> Av. Principal Los Llanos, Sector Barinas Centro (Punto Referencial).
+                    </p>
+                </div>
+            </aside>
+
+            <!-- CENTRO: COMBOS PRINCIPALES -->
+            <section class="columna-centro">
+                <div class="grid-productos">
+                    
+                    <!-- PRODUCTO 1: COMPLETO -->
+                    <div class="tarjeta-producto">
+                        <div class="producto-info">
+                            <h3>Pollo Completo</h3>
+                            <span class="badge-incluye">Combo Completo</span>
+                            <div class="descripcion-detalles">
+                                <span>🥗 Ensalada Fresh de la Casa</span>
+                                <span>🥤 Refresco Familiar de 1 Litro</span>
+                            </div>
+                        </div>
+                        
+                        <div class="caja-precios">
+                            <div class="fila-precio">
+                                <div class="detalle-pago">
+                                    <strong>Pago Inmediato</strong>
+                                    Vía Pago Móvil
+                                </div>
+                                <div class="precio-bloque">
+                                    <div class="precio-numero">$14</div>
+                                </div>
+                            </div>
+                            <div class="fila-precio">
+                                <div class="detalle-pago">
+                                    <strong>Pago Financiado</strong>
+                                    Hasta 1 semana
+                                </div>
+                                <div class="precio-bloque">
+                                    <div class="precio-numero">$16</div>
+                                    <span class="nota-tasa">*(Tasa del día al cancelar)*</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/584142165351?text=Hola%21%20Quiero%20ordenar%20un%20Pollo%20Completo%20%28con%20ensalada%20y%20refresco%20de%201L%29%20%F0%9F%8DA7" class="btn-pedido" target="_blank">
+                            Ordenar por WhatsApp
+                        </a>
+                    </div>
+
+                    <!-- PRODUCTO 2: MEDIO -->
+                    <div class="tarjeta-producto">
+                        <div class="producto-info">
+                            <h3>Medio Pollo</h3>
+                            <span class="badge-incluye">Combo Personal</span>
+                            <div class="descripcion-detalles">
+                                <span>🥗 Ensalada Fresh de la Casa</span>
+                                <span>🥤 Refresco Individual de 400ml</span>
+                            </div>
+                        </div>
+                        
+                        <div class="caja-precios">
+                            <div class="fila-precio">
+                                <div class="detalle-pago">
+                                    <strong>Pago Inmediato</strong>
+                                    Vía Pago Móvil
+                                </div>
+                                <div class="precio-bloque">
+                                    <div class="precio-numero">$7</div>
+                                </div>
+                            </div>
+                            <div class="fila-precio">
+                                <div class="detalle-pago">
+                                    <strong>Pago Financiado</strong>
+                                    Hasta 1 semana
+                                </div>
+                                <div class="precio-bloque">
+                                    <div class="precio-numero">$8</div>
+                                    <span class="nota-tasa">*(Tasa del día al cancelar)*</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/584142165351?text=Hola%21%20Quiero%20ordenar%20Medio%20Pollo%20%28con%20ensalada%20y%20refresco%20de%20400ml%29%20%F0%9F%8DA7" class="btn-pedido" target="_blank">
+                            Ordenar por WhatsApp
+                        </a>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- SECCIONES INFERIORES: PAGO MÓVIL Y ATENCIÓN AL CLIENTE -->
+        <div class="contenedor-inferior">
+            
+            <section class="seccion-pagomovil">
+                <h4>Datos de Pago Móvil</h4>
+                <div class="lista-datos">
+                    <p><strong>Banco:</strong> <span>Banco Mercantil (0105)</span></p>
+                    <p><strong>Cédula:</strong> <span>14.663.920</span></p>
+                    <p><strong>Teléfono:</strong> <span>0426-7736001</span></p>
+                </div>
+                <div class="advertencia-comercial">
+                    * El financiamiento a 1 semana requiere validación previa y es exclusivo para clientes frecuentes o verificados.
+                </div>
+            </section>
+
+            <section class="seccion-atencion">
+                <h4>Atención al Cliente</h4>
+                <p>¿Tienes dudas o necesitas información sobre tu pedido? Comunícate directamente con nuestro equipo.</p>
+                <a href="https://wa.me/584142165351?text=Hola%21%20Necesito%20atenci%C3%B3n%20al%20cliente%20sobre%20un%20pedido%20o%20consulta." class="btn-atencion-ws" target="_blank">
+                    💬 Chatear al 0414-2165351
                 </a>
-            </div>
-
-            <!-- PRODUCTO 2: MEDIO -->
-            <div class="tarjeta-producto">
-                <div class="producto-info">
-                    <h3>Medio Pollo</h3>
-                    <span class="badge-incluye">Combo Personal</span>
-                    <div class="descripcion-detalles">
-                        <span>🥗 Ensalada Fresh de la Casa</span>
-                        <span>🥤 Refresco Individual de 400ml</span>
-                    </div>
-                </div>
-                
-                <div class="caja-precios">
-                    <div class="fila-precio">
-                        <div class="detalle-pago">
-                            <strong>Pago Inmediato</strong>
-                            Vía Pago Móvil
-                        </div>
-                        <div class="precio-bloque">
-                            <div class="precio-numero">$7</div>
-                        </div>
-                    </div>
-                    <div class="fila-precio">
-                        <div class="detalle-pago">
-                            <strong>Pago Financiado</strong>
-                            Hasta 1 semana de plazo
-                        </div>
-                        <div class="precio-bloque">
-                            <div class="precio-numero">$8</div>
-                            <span class="nota-tasa">*(Tasa del día al momento de cancelar)*</span>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="https://wa.me/573219806484?text=Hola%20Jes%C3%BAs%21%20Quiero%20ordenar%20Medio%20Pollo%20%28con%20ensalada%20y%20refresco%20de%20400ml%29%20%F0%9F%8DA7" class="btn-pedido" target="_blank">
-                    Ordenar por WhatsApp
-                </a>
-            </div>
+            </section>
 
         </div>
     </main>
 
-    <!-- DATOS DE TRANSFERENCIA Y ADVERTENCIA COMERCIAL -->
-    <section class="seccion-pagomovil animar-capa-3">
-        <h4>Datos de Pago Móvil</h4>
-        <div class="lista-datos">
-            <p><strong>Banco:</strong> <span>Banco Mercantil (0105)</span></p>
-            <p><strong>Cédula:</strong> <span>14.663.920</span></p>
-            <p><strong>Teléfono:</strong> <span>0426-7736001</span></p>
-        </div>
-        
-        <div class="advertencia-comercial">
-            * El servicio de financiamiento a una semana está sujeto a validación previa del comercio y es exclusivo para clientes frecuentes o verificados.
-        </div>
-    </section>
-
     <!-- PIE DE PÁGINA -->
     <footer>
         <p>&copy; 2026 AL CARBÓN & GRACIA. Todos los derechos reservados.</p>
-        <p style="color: var(--cobre-premium); margin-top: 6px; letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">Calidad & Tradición Premium</p>
+        <p style="color: var(--cobre-premium); margin-top: 6px; letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">Barinas, Venezuela • Calidad & Tradición Premium</p>
     </footer>
 
 </body>
